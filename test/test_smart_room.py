@@ -11,7 +11,11 @@ from mock.senseair_s8 import SenseairS8
 class TestSmartRoom(unittest.TestCase):
 
     @patch.object(GPIO, "input")
-    def test_detect_person_in_room(self, mock_pin_22: Mock):
-        mock_pin_22.return_value =True
-        smart_room = SmartRoom
-        self.assertTrue(smart_room.check_room_occupancy(smart_room.INFRARED_PIN))
+    def test_check_person_in_room(self, mock_infrared_sensor: Mock):
+        mock_infrared_sensor.return_value = True
+        smart_home = SmartRoom()
+        self.assertTrue(smart_home.check_room_occupancy())
+
+
+
+
