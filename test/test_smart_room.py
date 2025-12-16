@@ -4,13 +4,14 @@ from unittest.mock import patch, PropertyMock
 from unittest.mock import Mock
 
 from mock.adafruit_bmp280 import Adafruit_BMP280_I2C
-from src.smart_room import SmartRoom
+from src.smart_room import SmartRoom, SmartRoomError
 from mock.senseair_s8 import SenseairS8
 
 
 class TestSmartRoom(unittest.TestCase):
 
     @patch.object(GPIO, "input")
-    def test_something(self, mock_object: Mock):
-        # This is an example of test where I want to mock the GPIO.input() function
-        pass
+    def test_detect_person_in_room(self, mock_pin_22: Mock):
+        mock_pin_22.return_value =True
+        smart_room = SmartRoom
+        self.assertTrue(smart_room.check_room_occupancy(smart_room.INFRARED_PIN))
