@@ -43,5 +43,14 @@ class TestSmartRoom(unittest.TestCase):
         mock_lightbulb.assert_called_with(smart_home.LED_PIN, True)
         self.assertTrue(smart_home.light_on)
 
+    @patch.object(GPIO, "input")  # infrared thingy
+    @patch.object(GPIO, "output")  # lightbuld
+    def test_check_person_in_room_and_enough_light(self, mock_lightbulb: Mock,
+                                                       mock_infrared_sensor: Mock):
+        mock_infrared_sensor.side_effect = [True, True]
+        smart_home = SmartRoom()
+        mock_lightbulb.assert_called_with(smart_home.LED_PIN, False)
+        self.assertFalse(smart_home.light_on)
+
 
 
