@@ -25,15 +25,23 @@ class TestSmartRoom(unittest.TestCase):
     @patch.object(GPIO, "input")
     def test_check_enough_light_in_room_photoresistor_on(self, mock_photoresistor: Mock):
         mock_photoresistor.return_value = True
-        sr = SmartRoom()
-        self.assertTrue(sr.check_enough_light())
+        smart_home = SmartRoom()
+        self.assertTrue(smart_home.check_enough_light())
 
     @patch.object(GPIO, "input")
     def test_check_enough_light_in_room_photoresistor_off(self, mock_photoresistor: Mock):
         mock_photoresistor.return_value = False
-        sr = SmartRoom()
-        self.assertFalse(sr.check_enough_light())
+        smart_home = SmartRoom()
+        self.assertFalse(smart_home.check_enough_light())
 
+    @patch.object(GPIO, "input")#infrared thingy
+    @patch.object(GPIO, "output")#lightbuld
+    def test_check_person_in_room_and_not_enough_light (self, mock_lightbulb: Mock,
+                                                        mock_infrared_sensor: Mock):
+        mock_infrared_sensor.side_effect = [True, False]
+        smart_home = SmartRoom()
+        mock_lightbulb.assert_called_with(smart_home.LED_PIN, True)
+        self.assertTrue(smart_home.light_on)
 
 
 
